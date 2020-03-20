@@ -7,10 +7,6 @@ import sys_config
 import network
 import micropython
 
-try:
-    import app.main
-except:
-    pass
 
 class mqtt_bootloader():
     def __init__(self, mqtt):
@@ -71,6 +67,7 @@ class mqtt_bootloader():
 
     def run_app(self, message=""):
         try:
+            import app.main
             app.main.run(self._mqtt, message)
         except Exception as e:
             self._mqtt.pub("error", e, "sys")
