@@ -1,5 +1,7 @@
 import gc
 import os
+import uio
+import sys
 import utime
 import machine
 import mqtt_wrap
@@ -70,7 +72,11 @@ class mqtt_bootloader():
             import app.main
             app.main.run(self._mqtt, message)
         except Exception as e:
-            self._mqtt.pub("error", e, "sys")
+            with uio.StringIO() as f:
+                sys.print_exception(e, f)
+                f.seek(0)
+                text = f.read()
+            self._mqtt.pub("error", text, "sys")
     
     def _led_set(self, message):
         if message == "on":
@@ -80,6 +86,9 @@ class mqtt_bootloader():
             
 
 def main():
+
+    print("")
+    print("Boot")
 
     if sys_config.ssid:
         sta_if = network.WLAN(network.STA_IF)
