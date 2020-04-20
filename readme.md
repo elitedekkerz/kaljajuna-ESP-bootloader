@@ -37,6 +37,10 @@ MQTT based bootloader for ESP8266 written in MircoPython.
 
             mosquitto_pub -h 10.0.0.10 -t UID/sys/led -m off
 
+    - Toggle identification LED:
+
+            mosquitto_pub -h 10.0.0.10 -t UID/sys/led -m toggle
+
     - Select file to read/write:
 
             mosquitto_pub -h 10.0.0.10 -t UID/sys/file -m file_name
