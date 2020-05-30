@@ -39,6 +39,7 @@ class mqtt_wrap():
 
     def set_prefix(self, prefix):
         self._prefix = prefix
+        self.pub("name", prefix, prefix="sys")
 
     def _callback_func(self, topic, message):
         self._new_msg = True
