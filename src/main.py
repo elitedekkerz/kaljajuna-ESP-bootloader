@@ -79,10 +79,17 @@ class mqtt_bootloader():
             self._mqtt.pub("error", text, "sys")
     
     def _led_set(self, message):
-        if message == "on":
-            self._led.on()
+        """
+        the output is inverted due to _led being controlled as a GPIO pin
+        on the cathode side of the LED
+        """
         if message == "off":
+            self._led.on()
+        elif message == "on":
             self._led.off()
+        elif message == "toggle":
+            self._led.value(~self._led.value()&1)
+        self._mqtt.pub("status/led", ["on", "off"][self._led.value()], "sys")
             
 
 def main():
